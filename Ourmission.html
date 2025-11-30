@@ -1,302 +1,165 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VanaMala — Tribal Art & Safety</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VanaMala Mission</title>
 
-  <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>
-    // public key you provided
-    (function(){ emailjs.init("iYW4ODkDbG7S9-aXC"); })();
-  </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f6f6f6;
+        }
+        header {
+            background: #4CAF50;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            font-size: 26px;
+        }
+        .container {
+            padding: 20px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #45a049;
+        }
 
-  <style>
-    :root{
-      --brown-dark:#5a351e;
-      --brown-mid:#8b4513;
-      --accent:#c68b3b;
-      --card-bg: rgba(255,255,255,0.96);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: 'Poppins', system-ui, Arial;
-      background: linear-gradient(135deg,#5a3e2b 0%, #8b5a2b 50%, #d2a679 100%);
-      color:#222;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      min-height:100vh;
-    }
-
-    header{
-      background: linear-gradient(135deg,var(--brown-mid), var(--accent));
-      color:white;
-      padding:28px 18px;
-      text-align:center;
-      font-size:32px;
-      font-weight:700;
-      letter-spacing:0.6px;
-      font-style:italic;
-      box-shadow:0 6px 20px rgba(0,0,0,0.18);
-    }
-    .quote{font-size:14px; margin-top:6px; opacity:.95}
-
-    .hero{
-      height:280px;
-      background: url('https://images.unsplash.com/photo-1600473763807-6defe0d19f49?auto=format&fit=crop&w=1350&q=60') center/cover no-repeat;
-      display:flex; align-items:center; justify-content:center; flex-direction:column;
-      color:white; text-shadow: 2px 2px 12px rgba(0,0,0,0.7);
-      padding:18px;
-    }
-    .hero h1{font-size:44px;margin:0}
-    .hero p{margin-top:10px;font-size:18px}
-
-    main{max-width:1100px;margin:-60px auto 60px;padding:0 18px}
-
-    /* mission card */
-    #mission{
-      background:var(--card-bg);
-      border-radius:14px;
-      padding:26px;
-      box-shadow:0 12px 36px rgba(0,0,0,0.24);
-      display:flex;
-      gap:22px;
-      align-items:center;
-      margin-bottom:28px;
-    }
-    #mission img{
-      width:300px;height:200px;object-fit:cover;border-radius:10px;flex-shrink:0;
-      box-shadow:0 8px 20px rgba(0,0,0,0.12);
-    }
-    #mission .text h2{margin:0;color:var(--brown-dark);font-size:26px}
-    #mission .text p{color:#3d2314;line-height:1.6;margin-top:10px;font-size:16px}
-    #mission .cta{margin-top:12px;display:flex;gap:12px}
-
-    .btn{
-      padding:10px 20px;border-radius:10px;border:0;cursor:pointer;font-weight:700;
-      box-shadow:0 8px 18px rgba(0,0,0,0.12);
-    }
-    .btn-primary{background:var(--brown-dark);color:white;}
-    .btn-ghost{background:transparent;border:2px solid var(--brown-dark); color:var(--brown-dark);}
-
-    /* crafts / cards */
-    .section{margin-top:18px}
-    .section h3{color: #fff; font-size:22px;text-align:center;margin-bottom:16px; text-shadow: 1px 1px 4px rgba(0,0,0,.5)}
-    .cards{display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
-    .card{background:white;border-radius:14px;width:300px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.18);cursor:default}
-    .card img{width:100%;height:180px;object-fit:cover}
-    .card .body{padding:14px}
-    .card h4{margin:6px 0;color:var(--brown-dark)}
-    .card p{color:#555; margin:8px 0 0}
-
-    footer{margin-top:36px;background:var(--brown-mid);color:white;text-align:center;padding:18px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.14)}
-
-    /* popup common */
-    .popup-bg{
-      display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter: blur(4px);
-      align-items:center;justify-content:center;z-index:60;
-    }
-    .popup{
-      width:340px;background:white;border-radius:12px;padding:20px;box-shadow:0 8px 30px rgba(0,0,0,.28);
-      text-align:center;
-    }
-    .popup h4{margin:6px 0 8px;color:var(--brown-dark)}
-    .popup p{color:#333;margin:6px 0 12px}
-    .popup img.qr{width:220px;border-radius:8px;margin:8px 0}
-
-    .input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:10px}
-
-    @media(max-width:880px){
-      #mission{flex-direction:column;align-items:flex-start}
-      #mission img{width:100%;height:180px}
-    }
-  </style>
+        /* POPUP STYLES */
+        .popup-bg {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-box {
+            background: white;
+            padding: 25px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        input, label {
+            width: 100%;
+            margin: 8px 0;
+        }
+        input {
+            padding: 8px;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    VanaMala
-    <div class="quote">"Bringing tribal art to every heart"</div>
-  </header>
+<header>VanaMala – Helping Hands for a Better Tomorrow</header>
 
-  <div class="hero">
-    <h1>Discover Tribal Art</h1>
-    <p>Authentic • Handmade • Meaningful</p>
-  </div>
+<div class="container">
+    <h2>Our Mission</h2>
+    <p>
+        At VanaMala, we believe that every small act of kindness can create a big impact.  
+        From supporting local communities to helping underprivileged families,  
+        we aim to bring positive and meaningful change.
+    </p>
+    <p>
+        We work with a team of passionate young volunteers who dedicate their time  
+        towards awareness drives, environmental protection, women support programs,  
+        child welfare, and community upliftment activities.
+    </p>
+    <p>
+        Your support helps us feed families, distribute essentials,  
+        help children with basic needs, and create opportunities for a brighter future.
+    </p>
 
-  <main>
-    <!-- Mission card (full content included here) -->
-    <div id="mission" role="region" aria-label="Our Mission">
-      <img src="/mnt/data/b449716e-1dae-4e30-b6c3-32e600f8189f.png" alt="Village craft making" />
-      <div class="text">
-        <h2>Our Mission</h2>
+    <button onclick="openDonate()">Donate Now</button>
+    <button onclick="openBooking()">Book Our Session</button>
+</div>
 
-        <p><strong>Every year, over 8,000+ people lose their lives in India due to man-made disasters, remote-village accidents, floods, fires and lack of emergency awareness.</strong></p>
+<!-- DONATE POPUP -->
+<div class="popup-bg" id="donatePopup">
+    <div class="popup-box">
+        <h2>Support Our Mission</h2>
+        <p><b>UPI ID:</b> akscosouth@okhdfcbank</p>
 
-        <p>Many tribal children grow up without safety education, without support, and without hope. We buy clay toys and crafts at fair prices so tribal artists earn more — and we use the profits to travel to remote schools and teach simple, life-saving safety steps:</p>
+        <img src="qr.png" alt="QR Code">
 
-        <ul style="color:#3d2314; line-height:1.6; margin-top:8px;">
-          <li>How to stay safe during an earthquake</li>
-          <li>How to exit safely during a fire</li>
-          <li>Basic flood preparedness and calm response</li>
-        </ul>
-
-        <p style="font-style:italic;color:#6a3d27; margin-top:8px;">
-          When you support VanaMala, you are not only buying a piece of tribal culture — you are helping us reach a village where one simple safety lesson can save a life.
-        </p>
-
-        <div class="cta">
-          <button class="btn btn-primary" id="donateBtn">Donate Now</button>
-          <button class="btn btn-ghost" id="bookBtn">Book Our Session</button>
-        </div>
-      </div>
+        <button onclick="closeDonate()">Close</button>
     </div>
+</div>
 
-    <!-- Crafts preview -->
-    <section class="section">
-      <h3>Crafts We Bring</h3>
-      <div class="cards">
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1598387993441-019c77b5c9cc?auto=format&fit=crop&w=900&q=60" alt="">
-          <div class="body">
-            <h4>Clay Toys</h4>
-            <p>Handcrafted with village warmth.</p>
-          </div>
-        </div>
+<!-- BOOKING POPUP -->
+<div class="popup-bg" id="bookingPopup">
+    <div class="popup-box">
+        <h2>Book Our Session</h2>
 
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=900&q=60" alt="">
-          <div class="body">
-            <h4>Folk Paintings</h4>
-            <p>Stories and colour from the roots.</p>
-          </div>
-        </div>
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="date" id="dob" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
 
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1508556497405-ed7dcd94ac68?auto=format&fit=crop&w=900&q=60" alt="">
-          <div class="body">
-            <h4>Decor Pieces</h4>
-            <p>Handmade decor, soulful & simple.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+        <label><input type="checkbox" id="robot"> I'm not a robot</label>
 
-    <footer>
-      © 2025 VanaMala — Supporting Tribal Communities
-    </footer>
-  </main>
-
-  <!-- Donate popup -->
-  <div id="donationPopup" class="popup-bg" role="dialog" aria-hidden="true">
-    <div class="popup" role="document">
-      <h4>Support Our Mission</h4>
-      <p>Scan the UPI QR or use ID below</p>
-      <!-- replace with your real QR image path or URL -->
-      <img class="qr" src="YOUR_QR_IMAGE.png" alt="UPI QR code (replace)" />
-      <p style="font-weight:700">UPI ID: vanamalaofficial@upi</p>
-      <div style="margin-top:12px;">
-        <button class="btn btn-primary" onclick="closeDonation()">Close</button>
-      </div>
+        <button onclick="sendBooking()">Submit</button>
+        <button onclick="closeBooking()">Close</button>
     </div>
-  </div>
+</div>
 
-  <!-- Booking popup -->
-  <div id="sessionPopup" class="popup-bg" role="dialog" aria-hidden="true">
-    <div class="popup" role="document">
-      <h4>Book a Session</h4>
+<!-- EMAILJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+<script>
+    emailjs.init("YOUR_SERVICE_ID");
 
-      <form id="bookingForm">
-        <input class="input" name="user_name" type="text" placeholder="Full name" required>
-        <input class="input" name="user_dob" type="date" required>
-        <input class="input" name="user_phone" type="tel" placeholder="Phone number" required>
-
-        <label style="display:flex; align-items:center; gap:8px; margin-top:10px; justify-content:flex-start;">
-          <input name="human_check" type="checkbox" required>
-          <span>I'm not a robot</span>
-        </label>
-
-        <div style="display:flex;gap:10px; margin-top:14px;">
-          <button class="btn btn-primary" type="submit" style="flex:1">Submit</button>
-          <button type="button" class="btn btn-ghost" onclick="closeSession()" style="flex:1">Cancel</button>
-        </div>
-
-        <p id="formStatus" style="color:green; margin-top:10px; display:none"></p>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // show / hide popups
-    const donationPopup = document.getElementById('donationPopup');
-    const sessionPopup = document.getElementById('sessionPopup');
-    document.getElementById('donateBtn').addEventListener('click', ()=> donationPopup.style.display = 'flex');
-    document.getElementById('bookBtn').addEventListener('click', ()=> sessionPopup.style.display = 'flex');
-
-    function closeDonation(){ donationPopup.style.display = 'none'; }
-    function closeSession(){ sessionPopup.style.display = 'none'; }
-
-    // EmailJS settings
-    const SERVICE_ID = 'service_jps2f76'; // you gave this
-    const TEMPLATE_ID = 'template_session'; // change if your template ID is different
-    // public key already initialized above in head
-
-    // booking form handling
-    const bookingForm = document.getElementById('bookingForm');
-    const formStatus = document.getElementById('formStatus');
-
-    bookingForm.addEventListener('submit', function(e){
-      e.preventDefault();
-
-      // collect values
-      const name = this.user_name.value.trim();
-      const dob = this.user_dob.value;
-      const phone = this.user_phone.value.trim();
-      const robotChecked = !!this.human_check.checked;
-
-      if(!name || !dob || !phone){ alert('Please fill all fields'); return; }
-      if(!robotChecked){ alert('Please confirm you are not a robot'); return; }
-
-      // prepare template params (match your emailjs template variables)
-      const templateParams = {
-        user_name: name,
-        user_dob: dob,
-        user_phone: phone,
-        // you can add email_to if your template supports it
-        email_to: 'vanamalaofficial2@gmail.com'
-      };
-
-      // send via EmailJS
-      emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
-        .then(() => {
-          formStatus.style.display = 'block';
-          formStatus.style.color = 'green';
-          formStatus.textContent = 'Session booked! We will contact you soon.';
-          // fallback: copy data to clipboard too
-          copyBookingToClipboard(templateParams);
-          setTimeout(()=>{ closeSession(); formStatus.style.display='none'; bookingForm.reset(); }, 2200);
-        }, (err) => {
-          console.error('EmailJS error', err);
-          formStatus.style.display = 'block';
-          formStatus.style.color = 'red';
-          formStatus.textContent = 'Could not send email automatically. Details copied to clipboard.';
-          // copy to clipboard so you can paste into email app
-          copyBookingToClipboard(templateParams);
-        });
-    });
-
-    function copyBookingToClipboard(obj){
-      const text = `New Booking:\nName: ${obj.user_name}\nDOB: ${obj.user_dob}\nPhone: ${obj.user_phone}\nSend to: vanamalaofficial2@gmail.com`;
-      navigator.clipboard?.writeText(text).catch(()=>{ /* ignore */ });
+    function openDonate() {
+        document.getElementById("donatePopup").style.display = "flex";
+    }
+    function closeDonate() {
+        document.getElementById("donatePopup").style.display = "none";
     }
 
-    // close popup if clicking outside
-    window.addEventListener('click', (ev)=>{
-      if(ev.target === donationPopup) closeDonation();
-      if(ev.target === sessionPopup) closeSession();
-    });
-  </script>
+    function openBooking() {
+        document.getElementById("bookingPopup").style.display = "flex";
+    }
+    function closeBooking() {
+        document.getElementById("bookingPopup").style.display = "none";
+    }
+
+    function sendBooking() {
+        let name = document.getElementById("name").value;
+        let dob = document.getElementById("dob").value;
+        let phone = document.getElementById("phone").value;
+        let robot = document.getElementById("robot").checked;
+
+        if (!name || !dob || !phone || !robot) {
+            alert("Please fill all details and verify 'I'm not a robot'");
+            return;
+        }
+
+        emailjs.send("YOUR_SERVICE_ID", "template_default", {
+            user_name: name,
+            user_dob: dob,
+            user_phone: phone,
+            to_email: "vanamalaofficial2@gmail.com"
+        });
+
+        alert("Your session request has been sent!");
+        closeBooking();
+    }
+</script>
+
 </body>
 </html>
