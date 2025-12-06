@@ -1,256 +1,309 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VanaMala</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #5a3d27, #8b5a2b, #c68b3b);
-      background-attachment: fixed;
-      color: #333;
-      animation: fadeInBody 1.2s ease-in;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VanaMala — Tribal Art & Safety</title>
+<meta name="description" content="VanaMala — Fair trade and safety programs for tribal communities.">
+<meta name="theme-color" content="#0b0b0b">
+<style>
+  /* ----------------- Root & Reset ----------------- */
+  :root{
+    --bg-1:#070708;
+    --bg-2:#0b0b0c;
+    --glass: rgba(255,255,255,0.02);
+    --muted:#bfb8b0;
+    --gold:#d9a84b;
+    --accent:#8b6c3a;
+    --white: #f3efe8;
+    --radius:16px;
+    --maxw:1200px;
+    --ease: cubic-bezier(.2,.9,.27,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(217,168,75,0.03), transparent 6%),
+      linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 100%);
+    color:var(--white);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.5;
+  }
+  .wrap{max-width:var(--maxw);margin:28px auto;padding:20px}
 
-    @keyframes fadeInBody {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+  /* ---------- Top bar ---------- */
+  header.site{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:18px;border-radius:18px;background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 18px 60px rgba(0,0,0,0.6);backdrop-filter: blur(6px);
+  }
+  .brand{display:flex;gap:14px;align-items:center}
+  .logo{
+    width:62px;height:62px;border-radius:12px;background:linear-gradient(180deg,#221812,#3a2a1b);
+    display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--gold);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+    font-size:18px;
+  }
+  .brand h1{font-size:20px;color:var(--white)}
+  .brand p{color:var(--muted);font-size:12px;margin-top:4px}
 
-    /* HEADER */
-    header {
-      background: linear-gradient(135deg, #8b4513, #c67b39);
-      padding: 30px 20px;
-      text-align: center;
-      color: white;
-      font-size: 36px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-      animation: slideDown 1s ease;
-      font-style: italic;
-    }
+  .nav-actions{display:flex;gap:12px;align-items:center}
+  .pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.02);color:var(--muted);font-weight:700}
 
-    @keyframes slideDown {
-      from { transform: translateY(-40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+  /* ---------- Hero cinematic ---------- */
+  .hero{
+    display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center;
+    margin-top:18px;padding:34px;border-radius:18px;background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 30px 100px rgba(0,0,0,0.7); overflow:hidden; position:relative;
+  }
+  /* subtle animated radial glow */
+  .hero::after{
+    content:'';position:absolute;right:-10%;top:-20%;width:520px;height:520px;border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, rgba(217,168,75,0.06), transparent 20%);
+    transform: rotate(18deg); pointer-events:none;
+  }
+  .hero-left{z-index:2}
+  .kicker{display:inline-block;padding:6px 10px;border-radius:10px;background:rgba(217,168,75,0.06);color:var(--gold);font-weight:800;font-size:12px;letter-spacing:1.2px}
+  h2.title{font-size:36px;margin:12px 0;color:var(--white);line-height:1.08;letter-spacing:0.2px}
+  p.lead{color:var(--muted);max-width:720px;margin-top:8px}
 
-    .quote {
-      font-size: 18px;
-      margin-top: 5px;
-      font-style: italic;
-      opacity: 0.9;
-      animation: fadeIn 1.8s ease;
-    }
+  .cta{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{padding:12px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:800;transition: transform .18s var(--ease), box-shadow .18s var(--ease)}
+  .btn-primary{background:linear-gradient(90deg,var(--gold),var(--accent));color:#111;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+  .btn-ghost{background:transparent;color:var(--gold);border:1px solid rgba(255,255,255,0.04)}
 
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
+  .hero-right{display:flex;flex-direction:column;gap:12px;z-index:2}
+  .card{background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.01)); padding:14px;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,0.6)}
+  .card h4{margin:0;color:var(--gold)}
+  .card p{color:var(--muted);margin-top:6px;font-size:13px}
 
-    /* HERO SECTION */
-    .hero {
-      height: 450px;
-      background: url('https://images.unsplash.com/photo-1600473763807-6defe0d19f49?auto=format') no-repeat center center/cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      color: white;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-      animation: fadeInHero 1.5s ease;
-    }
+  /* ---------- mission preview (glass) ---------- */
+  .mission-preview{margin-top:22px;display:flex;gap:18px;align-items:stretch}
+  .mission-left{flex:1;padding:22px;border-radius:14px;background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.014));box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+  .mission-left h3{color:var(--white);margin-bottom:8px}
+  .mission-left p{color:var(--muted);line-height:1.6}
+  .mission-photo{width:420px;border-radius:12px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,0.6)}
+  .mission-photo img{width:100%;height:100%;object-fit:cover;display:block}
 
-    @keyframes fadeInHero {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+  /* ---------- products grid (store ready) ---------- */
+  .products{margin-top:26px;display:flex;gap:18px;flex-wrap:wrap}
+  .product{width:300px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));box-shadow:0 20px 60px rgba(0,0,0,0.6);transform-origin:center;transition:transform .28s var(--ease)}
+  .product:hover{transform: translateY(-12px)}
+  .product img{width:100%;height:220px;object-fit:cover;display:block}
+  .product .bd{padding:14px}
+  .product h4{color:var(--gold);margin-bottom:6px}
+  .product p{color:var(--muted);font-size:14px}
+  .price{font-weight:800;color:var(--white);margin-top:8px}
 
-    .hero h1 {
-      font-size: 52px;
-      margin: 0;
-      font-weight: 700;
-      animation: slideUp 1.4s ease;
-    }
+  /* ---------- contact & footer ---------- */
+  .contact{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));box-shadow:0 18px 60px rgba(0,0,0,0.6)}
+  .contact h3{color:var(--white)}
+  .contact a{display:inline-block;margin-right:12px;margin-top:10px;color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.01)}
 
-    .hero p {
-      font-size: 22px;
-      margin-top: 10px;
-      animation: fadeIn 2s ease;
-    }
+  footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px}
 
-    @keyframes slideUp {
-      from { transform: translateY(30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+  /* ---------- floating donate ---------- */
+  .float-donate{position:fixed;right:22px;bottom:22px;z-index:400;background:linear-gradient(90deg,var(--gold),var(--accent));color:#111;padding:12px 18px;border-radius:40px;font-weight:800;display:flex;align-items:center;gap:10px;box-shadow:0 30px 80px rgba(0,0,0,0.7);cursor:pointer}
+  .float-donate:active{transform:translateY(2px)}
 
-    /* SECTIONS */
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-      animation: fadeInSection 1.3s ease;
-    }
+  /* ---------- popup ---------- */
+  .popup-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:900;align-items:center;justify-content:center}
+  .popup{width:360px;max-width:94%;background:linear-gradient(180deg, #0e0e0f, #121212);padding:18px;border-radius:12px;text-align:center;box-shadow:0 40px 120px rgba(0,0,0,0.8)}
+  .popup h3{color:var(--gold);margin-bottom:6px}
+  .qr{width:240px;height:240px;object-fit:contain;margin:10px auto;background:#fff;padding:8px;border-radius:12px}
+  .popup p{color:var(--muted)}
+  .popup .row{display:flex;gap:8px;justify-content:center;margin-top:12px}
 
-    @keyframes fadeInSection {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  /* ---------- subtle decorative tribal pattern (svg) ---------- */
+  .pattern{
+    position:absolute;left:-6%;top:6%;width:300px;height:300px;opacity:0.06;transform:rotate(12deg);
+  }
 
-    .section h2 {
-      font-size: 32px;
-      margin-bottom: 15px;
-      color: #8b4513;
-      font-weight: 700;
-    }
-
-    .section p {
-      max-width: 750px;
-      margin: auto;
-      font-size: 18px;
-      line-height: 1.6;
-      color: #fff;
-    }
-
-    /* CARDS */
-    .cards {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-top: 40px;
-    }
-
-    .card {
-      background: white;
-      width: 300px;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-      transition: 0.3s;
-      animation: fadeInCard 1.3s ease;
-    }
-
-    @keyframes fadeInCard {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .card:hover {
-      transform: translateY(-10px) scale(1.03);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    }
-
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .card h3 {
-      margin: 15px 0 5px;
-      font-size: 22px;
-      color: #5a351e;
-    }
-
-    .card p {
-      padding: 0 20px 20px;
-      font-size: 16px;
-      color: #555;
-    }
-
-    /* FOOTER */
-    footer {
-      background: #8b4513;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      margin-top: 50px;
-      font-size: 16px;
-      animation: fadeIn 2s ease;
-    }
-  </style>
+  /* ---------- utilities & responsiveness ---------- */
+  .muted{color:var(--muted)}
+  @media(max-width:980px){
+    .hero{grid-template-columns:1fr; padding:22px}
+    .mission-preview{flex-direction:column}
+    .mission-photo{width:100%;height:220px}
+    .products{justify-content:center}
+  }
+</style>
 </head>
 <body>
+  <div class="wrap">
+    <!-- header -->
+    <header class="site" role="banner">
+      <div class="brand">
+        <div class="logo">VM</div>
+        <div>
+          <h1>VanaMala</h1>
+          <p class="muted">"Bringing tribal art to every heart"</p>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <div class="pill">AUTHENTIC • HANDMADE • IMPACT</div>
+        <a class="pill" href="ourmission.html" style="text-decoration:none;color:var(--muted)">Our Mission</a>
+      </div>
+    </header>
 
-  <header>
-    VanaMala
-    <div class="quote">"Bringing tribal art to every heart"</div>
-  </header>
+    <!-- hero -->
+    <section class="hero" role="region" aria-label="Intro">
+      <svg class="pattern" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#000"/><stop offset="1" stop-color="#000"/></linearGradient></defs>
+        <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" transform="scale(1.5)">
+          <path d="M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" stroke="#d9a84b" opacity="0.85"/>
+        </g>
+      </svg>
 
-  <div class="hero">
-    <h1>Discover Tribal Art</h1>
-    <p>Authentic • Handmade • Meaningful</p>
-  </div>
+      <div class="hero-left">
+        <div class="kicker">TRIBAL • FAIR • IMPACT</div>
+        <h2 class="title">Discover tribal crafts that change lives</h2>
+        <p class="lead">We buy clay toys and crafts directly from tribal artisans at fair prices. The profits fund safety sessions in remote schools and real community support.</p>
 
-  <!-- CLICKABLE OUR MISSION -->
-  <div class="section">
-    <h2>
-      <a href="file:///C:/Users/praka/Documents/Ourmission.html" style="color:#4b1e0a; text-decoration:none; cursor:pointer;">
-        Our Mission
-      </a>
-    </h2>
-    <p>
-      We empower tribal artists by buying their beautiful clay toys and crafts at fair prices.
-      The money earned helps us visit remote schools, teach them about safety, and inspire confidence.
-      Every product you buy supports a village and builds a safer tomorrow.
-    </p>
-  </div>
-
-  <div class="section">
-    <h2><span style="color:#4b1e0a;">Crafts We Bring</span></h2>
-
-    <div class="cards">
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1598387993441-019c77b5c9cc?auto=format" />
-        <h3>Clay Toys</h3>
-        <p>Handcrafted clay toys carrying the warmth of Indian villages.</p>
+        <div class="cta">
+          <button class="btn btn-primary" id="btnDonateTop">Donate Now</button>
+          <a class="btn btn-ghost" href="ourmission.html">Read Our Mission</a>
+        </div>
       </div>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format" />
-        <h3>Folk Paintings</h3>
-        <p>Unique traditional art celebrating culture and stories.</p>
-      </div>
+      <aside class="hero-right" aria-hidden="false">
+        <div class="card">
+          <h4>Quick Facts</h4>
+          <p class="muted"><strong>Buy fair • Teach safety</strong><br>Every product helps fund an awareness visit.</p>
+        </div>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1508556497405-ed7dcd94ac68?auto=format" />
-        <h3>Decor Pieces</h3>
-        <p>Beautiful handmade decor crafted with love and care.</p>
+        <div class="card">
+          <h4>UPI</h4>
+          <p style="color:var(--white);margin-top:8px;font-weight:700">akscosouth@okhdfcbank</p>
+        </div>
+      </aside>
+    </section>
+
+    <!-- mission preview -->
+    <section class="mission-preview" aria-label="Mission preview">
+      <div class="mission-left">
+        <h3>Our Mission — Quick</h3>
+        <p class="muted">We purchase crafts fairly, empower artisans, and run safety education in remote schools — focused on earthquake, fire, and flood preparedness. We aim for long-term dignity and practical impact.</p>
+        <div style="margin-top:12px">
+          <a class="btn btn-ghost" href="ourmission.html">Read full mission</a>
+        </div>
+      </div>
+      <div class="mission-photo" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1600473763807-6defe0d19f49?auto=format&fit=crop&w=1200&q=60" alt="crafts">
+      </div>
+    </section>
+
+    <!-- products -->
+    <section aria-label="products" style="margin-top:26px">
+      <h3 style="color:var(--gold)">What we will sell (from Feb 2026)</h3>
+      <div class="products">
+        <article class="product" role="article">
+          <img src="https://images.unsplash.com/photo-1598387993441-019c77b5c9cc?auto=format&fit=crop&w=900&q=60" alt="Clay Toys">
+          <div class="bd">
+            <h4>Clay Toys</h4>
+            <p class="muted">Handmade traditional toys crafted by tribal artisans — playful, natural, and culturally rooted.</p>
+            <div class="price">Starting ₹150</div>
+          </div>
+        </article>
+
+        <article class="product" role="article">
+          <img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=900&q=60" alt="Folk Paintings">
+          <div class="bd">
+            <h4>Folk Paintings</h4>
+            <p class="muted">Small, framed folk art pieces using local styles and pigments — perfect for gifts and decor.</p>
+            <div class="price">Starting ₹350</div>
+          </div>
+        </article>
+
+        <article class="product" role="article">
+          <img src="https://images.unsplash.com/photo-1508556497405-ed7dcd94ac68?auto=format&fit=crop&w=900&q=60" alt="Decor Pieces">
+          <div class="bd">
+            <h4>Home Decor</h4>
+            <p class="muted">Handmade decor items — rustic, eco-friendly, and carrying tribal stories.</p>
+            <div class="price">Starting ₹250</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- contact -->
+    <section class="contact" aria-label="contact">
+      <h3>Contact & Support</h3>
+      <div style="margin-top:8px">
+        <a href="tel:9246780138">📞 9246780138</a>
+        <a href="tel:6303795998">📞 6303795998</a>
+        <a href="mailto:vanamalaofficial2@gmail.com">✉️ vanamalaofficial2@gmail.com</a>
+      </div>
+    </section>
+
+    <footer style="margin-top:22px">
+      <p>© 2025 VanaMala — Supporting Tribal Communities</p>
+    </footer>
+  </div>
+
+  <!-- float donate -->
+  <div class="float-donate" id="floatDonate" title="Donate">
+    ❤️ Donate
+  </div>
+
+  <!-- popup -->
+  <div class="popup-bg" id="donationPopup" aria-hidden="true">
+    <div class="popup" role="dialog" aria-modal="true" aria-labelledby="donateTitle">
+      <h3 id="donateTitle">Support VanaMala</h3>
+      <p style="margin:6px 0;color:var(--muted)">Scan the QR or use UPI ID</p>
+      <img class="qr" src="https://vanamalaofficial2-ux.github.io/tribalsupport/donation.png" alt="UPI QR"
+           onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=akscosouth@okhdfcbank'">
+      <p style="margin-top:8px;font-weight:800;color:var(--white)">akscosouth@okhdfcbank</p>
+      <div class="row">
+        <button class="btn btn-primary" id="copyBtn">Copy UPI</button>
+        <button class="btn btn-ghost" id="closeBtn">Close</button>
       </div>
     </div>
   </div>
 
-  <footer>
-    © 2025 VanaMala — Supporting Tribal Communities
-  </footer>
+<script>
+  // fast, small JS to open / close popup + copy
+  const popupBg = document.getElementById('donationPopup');
+  const floatDonate = document.getElementById('floatDonate');
+  const topDonate = document.getElementById('btnDonateTop') || document.getElementById('btnDonateTop'); // defensive
+  const copyBtn = document.getElementById('copyBtn');
+  const closeBtn = document.getElementById('closeBtn');
 
-  <!-- Donation Button -->
-  <div style="text-align:center; margin:40px;">
-    <button id="donateBtn" style="padding:15px 30px; background:#4b1e0a; color:white; border:none; border-radius:12px; font-size:20px; cursor:pointer;">Donate</button>
-  </div>
+  function openPopup(){ if(!popupBg) return; popupBg.style.display='flex'; popupBg.setAttribute('aria-hidden','false'); }
+  function closePopup(){ if(!popupBg) return; popupBg.style.display='none'; popupBg.setAttribute('aria-hidden','true'); }
 
-  <!-- Popup -->
-  <div id="donationPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); justify-content:center; align-items:center;">
-    <div style="background:white; padding:30px; border-radius:20px; width:320px; text-align:center; box-shadow:0 0 20px rgba(0,0,0,0.3); animation:pop 0.3s ease;">
-      <h2 style="color:#4b1e0a;">Support Our Mission</h2>
-      <p>Scan the UPI QR or use the ID below:</p>
-      <img src="YOUR_QR_IMAGE.png" style="width:200px; border-radius:10px; margin:10px 0;" />
-      <p style="font-weight:bold;">vanamala@upi</p>
-      <button id="closePopup" style="margin-top:15px; padding:10px 20px; background:#4b1e0a; color:white; border:none; border-radius:10px; cursor:pointer;">Close</button>
-    </div>
-  </div>
+  if(floatDonate) floatDonate.addEventListener('click', openPopup);
+  if(topDonate) topDonate.addEventListener('click', openPopup);
+  if(closeBtn) closeBtn.addEventListener('click', closePopup);
+  if(popupBg) popupBg.addEventListener('click', (e)=>{ if(e.target === popupBg) closePopup(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closePopup(); });
 
-  <script>
-    const donateBtn = document.getElementById('donateBtn');
-    const popup = document.getElementById('donationPopup');
-    const closePopup = document.getElementById('closePopup');
+  if(copyBtn){
+    copyBtn.addEventListener('click', async ()=>{
+      const upi = 'akscosouth@okhdfcbank';
+      try {
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          await navigator.clipboard.writeText(upi);
+          copyBtn.textContent = 'Copied ✓';
+          setTimeout(()=> copyBtn.textContent = 'Copy UPI', 1400);
+        } else {
+          const tmp = document.createElement('input'); tmp.value = upi; document.body.appendChild(tmp); tmp.select();
+          document.execCommand('copy'); document.body.removeChild(tmp); copyBtn.textContent = 'Copied ✓';
+          setTimeout(()=> copyBtn.textContent = 'Copy UPI', 1400);
+        }
+      } catch(err){ alert('Copy failed — please long-press the UPI ID to copy.'); }
+    });
+  }
 
-    donateBtn.onclick = () => popup.style.display = 'flex';
-    closePopup.onclick = () => popup.style.display = 'none';
-  </script>
-
+  // subtle entrance animation (non-blocking)
+  setTimeout(()=> {
+    const hero = document.querySelector('.hero');
+    if(hero) hero.style.transform = 'translateY(-6px)';
+  }, 500);
+</script>
 </body>
 </html>
